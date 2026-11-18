@@ -1,0 +1,2 @@
+com.example.storybook.shared
+xml automotive_app_desc
