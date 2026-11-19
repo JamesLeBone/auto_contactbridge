@@ -13,7 +13,7 @@
     - `MessageSentScreen.kt` (`MessageTemplate`): Sent confirmation and `popToRoot()`.
 - **Mobile Module (`:mobile`)**: Jetpack Compose companion app.
   - `MainActivity.kt`: Features contact management, Android photo picker integration (`PickVisualMedia`), drag-and-drop & arrow reordering with priority badges (`#1` to `#6`), and direct Call/Message testing.
-  - Service declaration: `MyCarAppService` registered with `androidx.car.app.category.COMMUNICATION`.
+  - Service declaration: `MyCarAppService` registered with `androidx.car.app.category.MESSAGING` for Android Auto discovery.
 - **Automotive Module (`:automotive`)**: Standalone AAOS target using `androidx.car.app.activity.CarAppActivity`.
 
 ## Car App Library (CAL) Critical Constraints

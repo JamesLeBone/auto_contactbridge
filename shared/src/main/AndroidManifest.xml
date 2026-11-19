@@ -12,7 +12,7 @@
             <intent-filter>
                 <action android:name="androidx.car.app.CarAppService" />
                 <!-- Other categories: NAVIGATION, CHARGING, IOT, ... -->
-                <category android:name="androidx.car.app.category.POI" />
+                <category android:name="androidx.car.app.category.MESSAGING" />
             </intent-filter>
         </service>
     </application>
