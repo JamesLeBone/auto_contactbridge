@@ -38,7 +38,8 @@ class ContactRepository(context: Context) {
                         phoneNumber = obj.optString("phoneNumber", obj.optString("address", "")),
                         messengerHandle = obj.optString("messengerHandle", ""),
                         preferredChannel = channel,
-                        avatarUri = if (obj.has("avatarUri") && !obj.isNull("avatarUri")) obj.getString("avatarUri") else null
+                        avatarUri = if (obj.has("avatarUri") && !obj.isNull("avatarUri")) obj.getString("avatarUri") else null,
+                        isEnabled = obj.optBoolean("isEnabled", true)
                     )
                 )
             }
@@ -95,6 +96,16 @@ class ContactRepository(context: Context) {
         }
     }
 
+    fun toggleContactEnabled(contactId: String) {
+        val current = getContacts().toMutableList()
+        val index = current.indexOfFirst { it.id == contactId }
+        if (index != -1) {
+            val old = current[index]
+            current[index] = old.copy(isEnabled = !old.isEnabled)
+            saveContacts(current)
+        }
+    }
+
     fun deleteContact(id: String) {
         val current = getContacts().filterNot { it.id == id }
         saveContacts(current)
@@ -130,6 +141,7 @@ class ContactRepository(context: Context) {
                 put("phoneNumber", contact.phoneNumber)
                 put("messengerHandle", contact.messengerHandle)
                 put("preferredChannel", contact.preferredChannel.name)
+                put("isEnabled", contact.isEnabled)
                 if (contact.avatarUri != null) {
                     put("avatarUri", contact.avatarUri)
                 }

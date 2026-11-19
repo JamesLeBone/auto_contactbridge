@@ -70,19 +70,12 @@ fun CarContactsManagerScreen(repository: ContactRepository) {
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Action buttons row
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
+            // Action button
+            Button(
+                onClick = { showAddDialog = true },
+                modifier = Modifier.fillMaxWidth()
             ) {
-                Button(onClick = { showAddDialog = true }) {
-                    Text("+ Add Contact")
-                }
-                OutlinedButton(onClick = {
-                    contacts = repository.resetToDefaults()
-                }) {
-                    Text("Reset Defaults")
-                }
+                Text("+ Add Contact")
             }
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -155,6 +148,10 @@ fun CarContactsManagerScreen(repository: ContactRepository) {
                         },
                         onToggleChannel = {
                             repository.togglePreferredChannel(contact.id)
+                            contacts = repository.getContacts()
+                        },
+                        onToggleEnabled = {
+                            repository.toggleContactEnabled(contact.id)
                             contacts = repository.getContacts()
                         },
                         onEdit = {

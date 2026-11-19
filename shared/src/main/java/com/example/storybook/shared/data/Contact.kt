@@ -12,7 +12,8 @@ data class Contact(
     val phoneNumber: String = "",
     val messengerHandle: String = "",
     val preferredChannel: MessageChannel = MessageChannel.SMS,
-    val avatarUri: String? = null
+    val avatarUri: String? = null,
+    val isEnabled: Boolean = true
 ) {
     val address: String
         get() = if (preferredChannel == MessageChannel.SMS) phoneNumber else messengerHandle

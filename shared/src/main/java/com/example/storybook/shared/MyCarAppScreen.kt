@@ -30,7 +30,7 @@ class MyCarAppScreen(carContext: CarContext) : Screen(carContext) {
     }
 
     override fun onGetTemplate(): Template {
-        val contacts = repository.getContacts()
+        val contacts = repository.getContacts().filter { it.isEnabled }
         val listBuilder = ItemList.Builder()
             .setNoItemsMessage("No contacts configured. Add contacts in the phone app first.")
 

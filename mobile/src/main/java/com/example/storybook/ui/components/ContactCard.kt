@@ -3,10 +3,20 @@ package com.example.storybook.ui.components
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Chat
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.Phone
+import androidx.compose.material.icons.filled.Send
+import androidx.compose.material.icons.filled.Sms
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
@@ -27,6 +37,7 @@ fun ContactCard(
     onMoveDown: () -> Unit,
     onDragHandle: Modifier,
     onToggleChannel: () -> Unit,
+    onToggleEnabled: () -> Unit,
     onEdit: () -> Unit,
     onCall: () -> Unit,
     onMessage: () -> Unit,
@@ -34,14 +45,18 @@ fun ContactCard(
 ) {
     val elevation by animateFloatAsState(targetValue = if (isDragged) 8f else 2f, label = "elevation")
     val scale by animateFloatAsState(targetValue = if (isDragged) 1.02f else 1f, label = "scale")
+    val cardAlpha = if (contact.isEnabled) 1.0f else 0.55f
 
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .scale(scale),
+            .scale(scale)
+            .alpha(cardAlpha),
         elevation = CardDefaults.cardElevation(defaultElevation = elevation.dp),
         colors = CardDefaults.cardColors(
-            containerColor = if (isTopPriority) {
+            containerColor = if (!contact.isEnabled) {
+                MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.3f)
+            } else if (isTopPriority) {
                 MaterialTheme.colorScheme.surface
             } else {
                 MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
@@ -86,7 +101,7 @@ fun ContactCard(
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis
                         )
-                        if (isTopPriority) {
+                        if (contact.isEnabled && isTopPriority) {
                             Spacer(modifier = Modifier.width(6.dp))
                             Surface(
                                 shape = RoundedCornerShape(4.dp),
@@ -96,6 +111,19 @@ fun ContactCard(
                                     text = "#${index + 1} Car Priority",
                                     style = MaterialTheme.typography.labelSmall,
                                     color = MaterialTheme.colorScheme.primary,
+                                    modifier = Modifier.padding(horizontal = 4.dp, vertical = 2.dp)
+                                )
+                            }
+                        } else if (!contact.isEnabled) {
+                            Spacer(modifier = Modifier.width(6.dp))
+                            Surface(
+                                shape = RoundedCornerShape(4.dp),
+                                color = MaterialTheme.colorScheme.outline.copy(alpha = 0.2f)
+                            ) {
+                                Text(
+                                    text = "Disabled",
+                                    style = MaterialTheme.typography.labelSmall,
+                                    color = MaterialTheme.colorScheme.outline,
                                     modifier = Modifier.padding(horizontal = 4.dp, vertical = 2.dp)
                                 )
                             }
@@ -115,6 +143,20 @@ fun ContactCard(
                         overflow = TextOverflow.Ellipsis
                     )
                 }
+
+                // Eye icon for enable/disable toggle
+                IconButton(
+                    onClick = onToggleEnabled,
+                    modifier = Modifier.size(36.dp)
+                ) {
+                    Icon(
+                        imageVector = if (contact.isEnabled) Icons.Default.Visibility else Icons.Default.VisibilityOff,
+                        contentDescription = if (contact.isEnabled) "Disable contact in car" else "Enable contact in car",
+                        tint = if (contact.isEnabled) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outline
+                    )
+                }
+
+                Spacer(modifier = Modifier.width(4.dp))
 
                 // Up / Down arrow affordances for reordering
                 Column {
@@ -138,7 +180,7 @@ fun ContactCard(
 
             Spacer(modifier = Modifier.height(10.dp))
 
-            // Action row: Preferred mode toggle + Call + Message + Edit + Delete
+            // Action row: Preferred mode toggle + Call + Message + Edit + Delete with Icons
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
@@ -147,8 +189,15 @@ fun ContactCard(
                 FilterChip(
                     selected = true,
                     onClick = onToggleChannel,
+                    leadingIcon = {
+                        Icon(
+                            imageVector = if (contact.preferredChannel == MessageChannel.SMS) Icons.Default.Sms else Icons.Default.Chat,
+                            contentDescription = null,
+                            modifier = Modifier.size(18.dp)
+                        )
+                    },
                     label = {
-                        Text("Mode: ${contact.preferredChannel.shortName}")
+                        Text(contact.preferredChannel.shortName)
                     },
                     colors = FilterChipDefaults.filterChipColors(
                         selectedContainerColor = if (contact.preferredChannel == MessageChannel.SMS) {
@@ -164,18 +213,50 @@ fun ContactCard(
                     )
                 )
 
-                Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-                    OutlinedButton(onClick = onCall) {
-                        Text("Call")
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(4.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    FilledTonalIconButton(
+                        onClick = onCall,
+                        modifier = Modifier.size(36.dp)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Phone,
+                            contentDescription = "Call",
+                            modifier = Modifier.size(20.dp)
+                        )
                     }
-                    Button(onClick = onMessage) {
-                        Text("Message")
+                    FilledIconButton(
+                        onClick = onMessage,
+                        modifier = Modifier.size(36.dp)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Send,
+                            contentDescription = "Message",
+                            modifier = Modifier.size(20.dp)
+                        )
                     }
-                    TextButton(onClick = onEdit) {
-                        Text("Edit")
+                    IconButton(
+                        onClick = onEdit,
+                        modifier = Modifier.size(36.dp)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Edit,
+                            contentDescription = "Edit",
+                            modifier = Modifier.size(20.dp)
+                        )
                     }
-                    TextButton(onClick = onDelete) {
-                        Text("✕", color = MaterialTheme.colorScheme.error)
+                    IconButton(
+                        onClick = onDelete,
+                        modifier = Modifier.size(36.dp)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Delete,
+                            contentDescription = "Delete",
+                            tint = MaterialTheme.colorScheme.error,
+                            modifier = Modifier.size(20.dp)
+                        )
                     }
                 }
             }
@@ -194,7 +275,8 @@ fun ContactCardPreview() {
                 name = "Jane Doe",
                 customTitle = "Spouse",
                 phoneNumber = "555-0192",
-                preferredChannel = MessageChannel.SMS
+                preferredChannel = MessageChannel.SMS,
+                isEnabled = true
             ),
             index = 0,
             totalCount = 4,
@@ -204,6 +286,7 @@ fun ContactCardPreview() {
             onMoveDown = {},
             onDragHandle = Modifier,
             onToggleChannel = {},
+            onToggleEnabled = {},
             onEdit = {},
             onCall = {},
             onMessage = {},
