@@ -1,2 +1,2 @@
-com.example.storybook.shared
+io.github.jameslebone.autocontactbridge.shared
 xml automotive_app_desc

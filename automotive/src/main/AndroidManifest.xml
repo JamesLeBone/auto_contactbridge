@@ -40,7 +40,7 @@
         </activity>
 
         <service
-            android:name="com.example.storybook.shared.MyCarAppService"
+            android:name="io.github.jameslebone.autocontactbridge.shared.MyCarAppService"
             android:exported="true">
             <intent-filter>
                 <action android:name="androidx.car.app.CarAppService" />

@@ -2,7 +2,7 @@ plugins {
     id 'com.android.library'
 }
 android {
-    namespace 'com.example.storybook.shared'
+    namespace 'io.github.jameslebone.autocontactbridge.shared'
     compileSdk 37
 
     defaultConfig {

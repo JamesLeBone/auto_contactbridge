@@ -3,13 +3,13 @@ plugins {
 }
 
 android {
-    namespace = "com.example.storybook"
+    namespace = "io.github.jameslebone.autocontactbridge"
     compileSdk {
         version = release(37)
     }
 
     defaultConfig {
-        applicationId = "com.example.storybook"
+        applicationId = "io.github.jameslebone.autocontactbridge"
         minSdk = 35
         targetSdk = 37
         versionCode = 1

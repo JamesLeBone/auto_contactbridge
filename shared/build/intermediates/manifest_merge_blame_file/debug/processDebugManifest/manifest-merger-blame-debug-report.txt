@@ -1,6 +1,6 @@
 1<?xml version="1.0" encoding="utf-8"?>
 2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-3    package="com.example.storybook.shared" >
+3    package="io.github.jameslebone.autocontactbridge.shared" >
 4
 5    <uses-sdk android:minSdkVersion="35" />
 5-->INJECTED
@@ -19,8 +19,8 @@
 13
 14        <service
 14-->/home/james-lebone/AndroidStudioProjects/Storybook/shared/src/main/AndroidManifest.xml:9:9-17:19
-15            android:name="com.example.storybook.shared.MyCarAppService"
-15-->/home/james-lebone/AndroidStudioProjects/Storybook/shared/src/main/AndroidManifest.xml:10:13-72
+15            android:name="io.github.jameslebone.autocontactbridge.shared.MyCarAppService"
+15-->/home/james-lebone/AndroidStudioProjects/Storybook/shared/src/main/AndroidManifest.xml:10:13-90
 16            android:exported="true" >
 16-->/home/james-lebone/AndroidStudioProjects/Storybook/shared/src/main/AndroidManifest.xml:11:13-36
 17            <intent-filter>
@@ -29,9 +29,9 @@
 18-->/home/james-lebone/AndroidStudioProjects/Storybook/shared/src/main/AndroidManifest.xml:13:17-73
 18-->/home/james-lebone/AndroidStudioProjects/Storybook/shared/src/main/AndroidManifest.xml:13:25-70
 19                <!-- Other categories: NAVIGATION, CHARGING, IOT, ... -->
-20                <category android:name="androidx.car.app.category.POI" />
-20-->/home/james-lebone/AndroidStudioProjects/Storybook/shared/src/main/AndroidManifest.xml:15:17-74
-20-->/home/james-lebone/AndroidStudioProjects/Storybook/shared/src/main/AndroidManifest.xml:15:27-71
+20                <category android:name="androidx.car.app.category.MESSAGING" />
+20-->/home/james-lebone/AndroidStudioProjects/Storybook/shared/src/main/AndroidManifest.xml:15:17-80
+20-->/home/james-lebone/AndroidStudioProjects/Storybook/shared/src/main/AndroidManifest.xml:15:27-77
 21            </intent-filter>
 22        </service>
 23    </application>

@@ -22,7 +22,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Storybook"
+rootProject.name = "AutoContactBridge"
 include(":mobile")
 include(":automotive")
 include(":shared")

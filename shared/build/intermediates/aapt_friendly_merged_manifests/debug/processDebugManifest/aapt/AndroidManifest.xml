@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.storybook.shared" >
+    package="io.github.jameslebone.autocontactbridge.shared" >
 
     <uses-sdk android:minSdkVersion="35" />
 
@@ -12,7 +12,7 @@
             android:value="1" />
 
         <service
-            android:name="com.example.storybook.shared.MyCarAppService"
+            android:name="io.github.jameslebone.autocontactbridge.shared.MyCarAppService"
             android:exported="true" >
             <intent-filter>
                 <action android:name="androidx.car.app.CarAppService" />
